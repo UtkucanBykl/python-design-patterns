@@ -1,35 +1,28 @@
-from abc import ABC, abstractmethod
-
-class Game(ABC):
-    @abstractmethod
-    def pixel(self):
-        pass
-
-class MobileGame(Game):
-    def pixel(self):
-        return '720x1080'
+class XMLCrawler:
+    def crawle(self):
+        return 'Crawle with XML'
 
 class Adapter:
-    _mobile_game = None
-    _pixel_translate = {
-        '720x1080': '1080:2040'
-    }
+    _xml_crawler = None
 
-    def __init__(self, mobil_game):
-        self._mobile_game = mobil_game
+    def __init__(self, xml_crawler):
+        self._xml_crawler = xml_crawler
 
-class PCGame(Game):
+    def convertJson(self, value):
+        return 'Convert Json ' + str(value)
+
+class Crawler:
     _adapter = None
-
+    
     def __init__(self, adapter):
         self._adapter = adapter
 
-    def pixel(self):
-        return self._adapter._pixel_translate[self._adapter._mobile_game.pixel()]
+    def crawle(self):
+        return self._adapter.convertJson(self._adapter._xml_crawler.crawle())
 
+xml_crawler = XMLCrawler()
+adapter = Adapter(xml_crawler)
+crawle = Crawler(adapter)
 
-mobil_game = MobileGame()
-adapter = Adapter(mobil_game)
-pc_game = PCGame(adapter)
+print(crawle.crawle())
 
-print(pc_game.pixel())
