@@ -30,9 +30,10 @@ class UserIterator(IUserIterator):
         return self._user_aggregate.users[self._index]
 
     def next(self):
+        self._index += 1
         if not self.is_done():
-            self._index += 1
             return self._user_aggregate.users[self._index]
+        raise IndexError('Last item')
 
 
 class UserAggregate:
@@ -58,8 +59,13 @@ class UserAggregate:
 
 utku = User('utku')
 ahmet = User('ahmet')
+mehmet = User('mehmet')
 user_aggregate = UserAggregate()
+user_iterator = user_aggregate.user_iterator()
 user_aggregate.add(utku)
 user_aggregate.add(ahmet)
-print(user_aggregate.user_iterator().current().name)
-print(user_aggregate.user_iterator().next())
+user_aggregate.add(mehmet)
+print(user_iterator.current().name)
+print(user_iterator.next().name)
+print(user_iterator.next().name)
+print(user_iterator.next().name)
